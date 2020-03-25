@@ -17,4 +17,3 @@
   What happens if XSS is a feature? {appTitle} attemps to find out.
 </p>
 
-<button>Create Room</button>
