@@ -1,9 +1,12 @@
 <script>
   import { createRoom } from "../services/rooms.js";
 
-  let roomName = "";
+  let roomName = "Test Room";
   let isLoading = false;
-  $: isDisabled = roomName.length > 3 && !isLoading;
+
+  let room = null;
+
+  $: isDisabled = roomName.length <= 3 && !isLoading;
 
   const submitHandler = (e) => {
     console.log("creating room", { roomName });
@@ -11,18 +14,29 @@
     isLoading = true;
 
     createRoom(roomName)
-      .then(() => roomName = "")
-      .finally(() => isLoading = false)
+      .then(createdRoom => {
+        roomName = "";
+        room = createdRoom;
+        console.log(createdRoom);
+      })
+      .finally(() => {
+        isLoading = false;
+      })
   }
 
 </script>
 
+{#if room !== null}
+  <div>
+    <p>Room was created</p>
+    <p>{room.name} was created.</p>
+    <a href={room.url}>Go to {room.name}</a>
+  </div>
+{:else}
+  <form class="create-room"  on:submit={submitHandler}>
+    <label for="room_name">Room Name</label>
+    <input type="text" id="room_name" name="name" bind:value={roomName} />
+    <button type="submit" disabled={isDisabled}>Add Room</button>
+  </form>
 
-<form class="create-room"  on:submit={submitHandler}>
-  <label for="room_name">Room Name</label>
-  <input type="text" id="room_name" name="name" bind:this={roomName} />
-  <button type="submit" disabled={isDisabled}>Add Room</button>
-</form>
-
-
-
+{/if}

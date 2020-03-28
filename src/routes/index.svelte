@@ -17,3 +17,11 @@
   What happens if XSS is a feature? {appTitle} attemps to find out.
 </p>
 
+<ul>
+  <li>
+    <a href="/room/create">Create a room</a>
+  </li>
+  <li>
+    <a href="/room/list">View rooms</a>
+  </li>
+</ul>

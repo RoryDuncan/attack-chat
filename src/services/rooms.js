@@ -4,17 +4,23 @@ export const refName = "rooms";
 
 export const createRoom = async (name) => {
 
-  const room = database.ref(refName).push();
+  const roomRef = database.ref(refName).push();
 
-  return room.set({ name })
-    .then((response) => {
-      console.log(response)
+
+  return roomRef.set({ name })
+    .then(() => {
+      const id = roomRef.key;
+      const url = getRoomURL(id);
+      return { name, id, url };
     })
     .catch((err) => {
       console.err(err)
     })
 
 };
+
+// one day we'll use full paths, but for this mvp we'll use query params
+export const getRoomURL = (id) => `/room?id=${id}`;
 
 export const deleteRoom = async () => {};
 
