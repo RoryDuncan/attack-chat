@@ -20,9 +20,12 @@ export const createRoom = async (fields) => {
 };
 export const getRoomByID = async (id) => {
   const snapshot = await database.ref(`${refName}/${id}`).once("value");
-  const room = snapshot.val();
+
+  const room = Object.assign({ id }, snapshot.val());
+
   console.log(room);
-  return room || null;
+
+  return room;
 }
 
 // one day we'll use full paths, but for this mvp we'll use query params
