@@ -9,7 +9,6 @@
   $: isDisabled = roomName.length <= 3 && !isLoading;
 
   const submitHandler = (e) => {
-    console.log("creating room", { roomName });
     e.preventDefault();
     isLoading = true;
 
@@ -17,7 +16,6 @@
       .then(createdRoom => {
         roomName = "";
         room = createdRoom;
-        console.log(createdRoom);
       })
       .finally(() => {
         isLoading = false;

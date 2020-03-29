@@ -1,6 +1,9 @@
 <script>
+  import { onMount } from "svelte";
 
-  // this page needs to load the data for a room, and mount the component
+  onMount(() => {
+
+  });
 </script>
 
 <section class="messages">
