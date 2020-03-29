@@ -1,18 +1,21 @@
 <script>
   import { onMount } from "svelte";
 
-  onMount(() => {
+  let isReady = false;
+  let RoomProvider = null;
+  let roomID = null;
 
-  });
+  onMount(async () => {
+    const module = await import("../../client_components/RoomProvider.svelte");
+    RoomProvider = module.default;
+    isReady = true;
+  })
 </script>
 
-<section class="messages">
-
-</section>
-
-<section class="message-input">
-  <textarea placeholder="Enter a message">
-
-  </textarea>
-  <button>Send</button>
-</section>
+{#if isReady}
+  <RoomProvider />
+{:else}
+  <p>
+    Loading...
+  </p>
+{/if}
