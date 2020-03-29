@@ -1,6 +1,9 @@
 <script>
   import { setContext } from "svelte";
-  export let name = null;
+
+
+  export let user = loadUser();
+  export let name = user ? user.name : null;
   $: hasName = name !== null;
 
   let enteredName = "";
@@ -12,9 +15,25 @@
   function submitHandler(e) {
     if (isValidName) {
       name = enteredName;
+      saveUser();
     }
 
     return false;
+  }
+
+  function loadUser() {
+
+    try {
+      const user = JSON.parse(localStorage.getItem("user") || "");
+      return user;
+    }
+    catch (ex) {
+      return null;
+    }
+  }
+
+  function saveUser() {
+    localStorage.setItem("user", JSON.stringify({ name }))
   }
 </script>
 
