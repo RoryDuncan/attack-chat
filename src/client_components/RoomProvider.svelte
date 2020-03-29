@@ -2,6 +2,7 @@
 
   import { setContext } from "svelte";
   import Room from "./Room.svelte";
+  import UserProvider from "./UserProvider.svelte";
   import { parseLocationForID, getRoomByID } from "../services/rooms.js"
 
   export const id = parseLocationForID(window.location);
@@ -29,7 +30,10 @@
 {:else}
 {#if hasValidID}
   {#if room !== null}
-    <Room {id} {room} />
+    <UserProvider>
+      <Room {id} {room} />
+    </UserProvider>
+
   {:else}
     <h2>404</h2>
     <p>This room doesn't exist.</p>
