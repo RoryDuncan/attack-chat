@@ -1,21 +1,18 @@
 <script>
   import { onMount } from "svelte";
+  import Loading from "../../components/Loading.svelte";
 
-  let isReady = false;
+  let isLoading = true;
   let RoomProvider = null;
   let roomID = null;
 
   onMount(async () => {
     const module = await import("../../client_components/RoomProvider.svelte");
     RoomProvider = module.default;
-    isReady = true;
+    isLoading = false;
   })
 </script>
 
-{#if isReady}
-  <RoomProvider />
-{:else}
-  <p>
-    Loading...
-  </p>
-{/if}
+<Loading {isLoading}>
+  <svelte:component this={RoomProvider} />
+</Loading>
