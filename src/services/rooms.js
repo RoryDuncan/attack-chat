@@ -18,9 +18,26 @@ export const createRoom = async (name) => {
     })
 
 };
+export const getRoomByID = async (id) => {
+  const snapshot = await database.ref(`${refName}/${id}`).once("value");
+  const room = snapshot.val();
+  console.log(room);
+  return room || null;
+}
 
 // one day we'll use full paths, but for this mvp we'll use query params
 export const getRoomURL = (id) => `/room?id=${id}`;
+
+export const parseLocationForID = (location) => {
+  if (location && location.search.length > 1) {
+    const search = new URLSearchParams(location.search.substring(1));
+    const id = search.get("id") || "";
+    if (id.length === 0) return null;
+    return id;
+  }
+
+  return null;
+};
 
 export const deleteRoom = async () => {};
 
