@@ -8,7 +8,7 @@ export const refName = "messages";
  * @returns {Function} A function to call for unlistening to new messages
  */
 export const listenForNewMessages = (id, callback) => {
-  const ref = database.ref(`${refName}/${id}`).limitToLast();
+  const ref = database.ref(`${refName}/${id}`).limitToLast(1);
   const thenable = ref.on("child_added", callback);
   return () => ref.off("child_added", thenable);
 }

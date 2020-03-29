@@ -1,6 +1,8 @@
 
 <script>
   import { getContext } from "svelte";
+  import MessageList from "./MessageList.svelte";
+
   export let id = null;
   export let room;
   let user = getContext("user")();
@@ -15,7 +17,7 @@
 </header>
 <form class="chat">
   <section class="messages">
-    No Messages Yet.
+    <MessageList />
   </section>
 
   <section class="message-input">
