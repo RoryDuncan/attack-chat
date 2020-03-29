@@ -6,17 +6,27 @@
 
   export const id = parseLocationForID(window.location);
   export let room = null;
+  setContext("room", () => room);
 
   const hasValidID = id !== null;
 
-  if (hasValidID) {
-    room = getRoomByID(id);
+  let isLoading = hasValidID;
+
+  loadRoom();
+
+  async function loadRoom() {
+    if (hasValidID) {
+      room = await getRoomByID(id);
+      isLoading = false;
+    }
   }
 
-  setContext("room", room);
+
 
 </script>
-
+{#if isLoading}
+  <p>Loading room...</p>
+{:else}
 {#if hasValidID}
   {#if room !== null}
     <Room {id} {room} />
@@ -28,4 +38,5 @@
 {:else}
   <h2>Invalid ID</h2>
   <p><em>{id}</em> is not valid.</p>
+{/if}
 {/if}

@@ -2,12 +2,12 @@ import { database } from "./firebase.js";
 
 export const refName = "rooms";
 
-export const createRoom = async (name) => {
+export const createRoom = async (fields) => {
 
   const roomRef = database.ref(refName).push();
+  const { name } = fields;
 
-
-  return roomRef.set({ name })
+  return roomRef.set(fields)
     .then(() => {
       const id = roomRef.key;
       const url = getRoomURL(id);
