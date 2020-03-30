@@ -21,7 +21,4 @@
   <li>
     <a href="/room/create">Create a room</a>
   </li>
-  <li>
-    <a href="/room/list">View rooms</a>
-  </li>
 </ul>
