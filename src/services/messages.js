@@ -1,4 +1,5 @@
 import { database } from "./firebase.js";
+import { loadUser } from "./user.js";
 
 export const refName = "messages";
 
@@ -17,6 +18,15 @@ export const getMessageHistory = async (id) => {
 
 }
 
-export const sendMessage = async (id, message) => {
+export const sendMessage = async (id, text) => {
+  const user = loadUser();
+  const ref = database.ref(`${refName}/${id}`).push();
+  const message = {
+    author: user.name || "unknown",
+    text,
+  };
+  ref.set(message)
+  .then(() => Object.assign({ id: ref.key, }, message))
+  .catch((err) => console.err(err));
 
 };
