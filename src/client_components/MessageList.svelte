@@ -19,7 +19,6 @@
   });
 
   function appendMessage(message) {
-    console.log(message);
     messages = [...messages, message];
   }
 </script>
