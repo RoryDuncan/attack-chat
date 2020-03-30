@@ -9,14 +9,17 @@ export const refName = "messages";
  * @returns {Function} A function to call for unlistening to new messages
  */
 export const listenForNewMessages = (id, callback) => {
+  console.log("Listening for messages on", id);
   const ref = database.ref(`${refName}/${id}`).limitToLast(1);
-  const thenable = ref.on("child_added", callback);
+  const getSnapshot = (snapshot) => callback(snapshot.val());
+  const thenable = ref.on("child_added", getSnapshot);
   return () => ref.off("child_added", thenable);
 }
 
 export const getMessageHistory = async (id) => {
 
 }
+
 
 export const sendMessage = async (id, text) => {
   const user = loadUser();
@@ -30,3 +33,5 @@ export const sendMessage = async (id, text) => {
   .catch((err) => console.err(err));
 
 };
+
+window.__send = sendMessage;

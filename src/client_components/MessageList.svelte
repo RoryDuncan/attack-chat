@@ -39,8 +39,9 @@
   <ul class="messages">
     {#each messages as message}
       <li>
-        {message.text}
-        {message.author}
+        <strong>{message.author}:</strong>
+        <span>{message.text}</span>
+
       </li>
     {:else}
       <li class="empty">
