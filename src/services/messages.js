@@ -1,6 +1,7 @@
 import { database } from "./firebase.js";
 import { loadUser } from "./user.js";
 
+const previousMessagesLoaded = 10;
 export const refName = "messages";
 
 /**
@@ -10,7 +11,7 @@ export const refName = "messages";
  */
 export const listenForNewMessages = (id, callback) => {
   console.log("Listening for messages on", id);
-  const ref = database.ref(`${refName}/${id}`).limitToLast(1);
+  const ref = database.ref(`${refName}/${id}`).limitToLast(previousMessagesLoaded);
   const getSnapshot = (snapshot) => callback(snapshot.val());
   const thenable = ref.on("child_added", getSnapshot);
   return () => ref.off("child_added", thenable);

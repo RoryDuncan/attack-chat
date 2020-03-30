@@ -2,6 +2,7 @@
 <script>
   import { getContext } from "svelte";
   import MessageList from "./MessageList.svelte";
+  import MessageComposer from "./MessageComposer.svelte";
 
   export let id = null;
   export let room;
@@ -15,13 +16,10 @@
   <h1 data-id={id}>{room.name || "Room"}</h1>
   <p>{room.description}</p>
 </header>
-<form class="chat">
-  <section class="messages">
-    <MessageList />
-  </section>
 
-  <section class="message-input">
-    <textarea placeholder="Enter a message"></textarea>
-    <button type="submit">Send</button>
-  </section>
-</form>
+<div class="chat">
+
+  <MessageList />
+  <MessageComposer id={id} />
+
+</div>
