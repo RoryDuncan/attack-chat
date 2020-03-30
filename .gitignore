@@ -7,3 +7,4 @@ yarn-error.log
 
 src/config/firebase.config.js
 .firebaserc
+public/
