@@ -1,7 +1,7 @@
 import { database } from "./firebase.js";
 import { loadUser } from "./user.js";
 
-const previousMessagesLoaded = 10;
+const previousMessagesLoaded = 50;
 export const refName = "messages";
 
 /**

@@ -3,11 +3,14 @@
 
   export let id;
   export let inputText = "";
+  export const maxLength = 500;
 
   let form;
 
   $: text = inputText.trim();
-  $: isDisabled = text.length === 0;
+  $: isTooLong = text.length > maxLength;
+  $: isDisabled = text.length === 0 || isTooLong;
+
 
 
   // when the user presses enter, send the messsage
@@ -32,12 +35,9 @@
 <style>
   .container {
     padding: 1rem 2rem;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-top: 1px solid #bbb;
+    border-top: 2px solid var(--sidebar-background-color);
     background-color: #fff;
+    margin: 0 0;
   }
 
   button {
@@ -52,6 +52,7 @@
 
   button[disabled] {
     filter: grayscale(1);
+    opacity: 0.5;
   }
 
   .composer {
@@ -64,13 +65,21 @@
 
   .message {
     width: 100%;
-    padding: 0.5rem;
-    border-radius: 3px;
-    border: 1px solid #fff;
+    padding: 0rem;
+    border: 1px solid transparent;
+    resize: none;
   }
 
   .message:focus {
-    border: 1px solid #bbb;
+    border: 1px solid transparent;
+    outline: transparent;
+  }
+
+  button.invalid {
+    filter: grayscale(0);
+    opacity: 1;
+    color: #b44;
+    border: 1px solid #b44;
   }
 </style>
 
@@ -83,7 +92,7 @@
       placeholder="Type a message here"
       on:keydown={keyDownHandler}
       bind:value={inputText} />
-    <button class="send" type="submit" disabled={isDisabled}>Send</button>
+    <button class="send" type="submit" class:invalid={isTooLong} disabled={isDisabled}>{isTooLong ? "Too Long" : "Send"}</button>
   </div>
 
 </form>

@@ -5,14 +5,26 @@
 </script>
 
 <style>
+
+  :global(html) {
+    --background-color: #fefefe;
+    --text-color: #335;
+    --sidebar-background-color: #fefefe;
+    --sidebar-text-color: #000;
+  }
+
+  :global(body) {
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+
   main {
-    max-width: 56em;
     margin: 0 auto;
-    padding: 2em 2em;
+    height: 100vh;
   }
 </style>
 
-<Nav {segment}/>
+<!-- <Nav {segment}/> -->
 
 <main>
   <slot></slot>

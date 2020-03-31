@@ -1,7 +1,22 @@
 <script>
+  import { createEventDispatcher, afterUpdate } from "svelte";
   export let isLoading = false;
   export let message = "Loading...";
 
+
+  // setup the event for when isLoaded changes
+  // this creates a better fulfillment than onMount
+  //  aka, bindings inside of this component won't be available until this event is fired
+  let previousValue = isLoading;
+  const dispatcher = createEventDispatcher();
+
+  afterUpdate(() => {
+    const hasChanged = isLoading !== previousValue;
+    if (!isLoading && hasChanged) {
+      dispatcher("load");
+    }
+    previousValue = isLoading;
+  })
 </script>
 
 <style>
