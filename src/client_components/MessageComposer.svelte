@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from "svelte";
   import { sendMessage } from "../services/messages.js";
 
   export let id;
@@ -6,11 +7,17 @@
   export const maxLength = 500;
 
   let form;
+  let composer;
 
   $: text = inputText.trim();
   $: isTooLong = text.length > maxLength;
   $: isDisabled = text.length === 0 || isTooLong;
 
+  onMount(() => {
+    if (composer) {
+      composer.focus();
+    }
+  })
 
 
   // when the user presses enter, send the messsage
@@ -88,9 +95,9 @@
     <textarea
       class="message"
       rows="3"
-      autofocus="autofocus"
       placeholder="Type a message here"
       on:keydown={keyDownHandler}
+      bind:this={composer}
       bind:value={inputText} />
     <button class="send" type="submit" class:invalid={isTooLong} disabled={isDisabled}>{isTooLong ? "Too Long" : "Send"}</button>
   </div>
