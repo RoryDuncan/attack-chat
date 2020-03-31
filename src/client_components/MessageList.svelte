@@ -23,9 +23,12 @@
   });
 
   function appendMessage(message) {
-    messages = [...messages, message].map(message => {
+    const nextList = [...messages, message].map(message => {
       return { ...message, isAuthor: message.author.toLowerCase() === user.name.toLowerCase()};
     });
+
+    messages = nextList.slice(Math.max(0, nextList.length - 100)); // limit to 100
+
     scrollToBottom(true);
   }
 
@@ -72,8 +75,8 @@
 
 <Loading {isLoading} message="Loading messages..." on:load={childrenMounted}>
   <ul class="messages" bind:this={list}>
-    {#each messages as { author, isAuthor, text}}
-      <li class="message">
+    {#each messages as { id, author, isAuthor, text}, index}
+      <li class="message" data-id={id} style={`opacity: ${index / messages.length};`} >
         <div class="author" class:is-author={isAuthor}>{author}</div>
 
         <div class="text">{text}</div>
