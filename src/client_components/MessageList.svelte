@@ -1,6 +1,7 @@
 <script>
   import { getContext, onMount } from "svelte";
-  import { listenForNewMessages } from "../services/messages.js";
+  import { fade } from "svelte/transition";
+  import { listenForNewMessages, listenForDeletedMessages } from "../services/messages.js";
   import { start as beginNotifying, notify } from "../services/notifications.js";
   import Loading from "../components/Loading.svelte";
 
@@ -16,15 +17,23 @@
 
   onMount(async () => {
     const unlistenForNewMessages = listenForNewMessages(id, appendMessage);
+    const unlistenForDeletedMessages = listenForDeletedMessages(id, removeMessage);
+
     isLoading = false;
 
     return () => {
+      unlistenForDeletedMessages();
       unlistenForNewMessages();
     };
   });
 
   function isAuthor(message) {
     return message.author.toLowerCase() === user.name.toLowerCase();
+  }
+
+  function removeMessage(message) {
+    messages = messages.filter(m => m.id !== message.id);
+    window.requestAnimationFrame(() => scrollToBottom(true, "smooth"));
   }
 
   function appendMessage(message) {
@@ -90,8 +99,8 @@
 
 <Loading {isLoading} message="Loading messages..." on:load={childrenMounted}>
   <ul class="messages" bind:this={list}>
-    {#each messages as { id, author, isAuthor, text}, index}
-      <li class="message" data-id={id} style={messages.length > 99 ? `opacity: ${index / messages.length};` : null} >
+    {#each messages as { id, author, isAuthor, text}, index (id)}
+      <li class="message" data-id={id} style={messages.length > 99 ? `opacity: ${index / messages.length};` : null} out:fade={{duration: 1000}}>
         <div class="author" class:is-author={isAuthor}>{author}</div>
 
         <div class="text">{text}</div>

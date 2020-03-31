@@ -10,7 +10,7 @@ export const refName = "messages";
  * @returns {Function} A function to call for unlistening to new messages
  */
 export const listenForNewMessages = (id, callback) => {
-  console.log("Listening for messages on", id);
+
   const ref = database.ref(`${refName}/${id}`).limitToLast(previousMessagesLoaded);
   const getSnapshot = (snapshot) => {
     const id = snapshot.key;
@@ -20,6 +20,20 @@ export const listenForNewMessages = (id, callback) => {
   }
   const thenable = ref.on("child_added", getSnapshot);
   return () => ref.off("child_added", thenable);
+}
+
+export const listenForDeletedMessages = async (id, callback) => {
+
+  const ref = database.ref(`${refName}/${id}`).limitToLast(previousMessagesLoaded);
+  const getSnapshot = (snapshot) => {
+    const id = snapshot.key;
+    const values = snapshot.val();
+    const message = { ...values, id, };
+    callback(message);
+  }
+  const thenable = ref.on("child_removed", getSnapshot);
+  return () => ref.off("child_removed", thenable);
+
 }
 
 export const getMessageHistory = async (id) => {
