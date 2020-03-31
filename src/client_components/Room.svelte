@@ -26,6 +26,7 @@
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
+    z-index: 1;
   }
 
   .sidebar p {
