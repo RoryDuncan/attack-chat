@@ -51,6 +51,7 @@
     }
     .chat {
       width: 75vw;
+      justify-content: space-between;
     }
 
     .room {

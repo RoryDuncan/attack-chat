@@ -1,6 +1,7 @@
 <script>
   import { getContext, onMount } from "svelte";
   import { listenForNewMessages } from "../services/messages.js";
+  import { start as beginNotifying, notify } from "../services/notifications.js";
   import Loading from "../components/Loading.svelte";
 
   const getRoom = getContext("room");
@@ -22,14 +23,22 @@
     };
   });
 
+  function isAuthor(message) {
+    return message.author.toLowerCase() === user.name.toLowerCase();
+  }
+
   function appendMessage(message) {
     const nextList = [...messages, message].map(message => {
-      return { ...message, isAuthor: message.author.toLowerCase() === user.name.toLowerCase()};
+      return { ...message, isAuthor: isAuthor(message)};
     });
 
     messages = nextList.slice(Math.max(0, nextList.length - 100)); // limit to 100
 
-    scrollToBottom(true);
+    if (!isAuthor(message)) {
+      notify(message);
+    }
+
+    scrollToBottom(false);
   }
 
   function scrollToBottom(force) {
@@ -41,6 +50,7 @@
 
   function childrenMounted() {
     scrollToBottom(true);
+    beginNotifying();
   }
 </script>
 
@@ -76,7 +86,7 @@
 <Loading {isLoading} message="Loading messages..." on:load={childrenMounted}>
   <ul class="messages" bind:this={list}>
     {#each messages as { id, author, isAuthor, text}, index}
-      <li class="message" data-id={id} style={`opacity: ${index / messages.length};`} >
+      <li class="message" data-id={id} style={messages.length > 99 ? `opacity: ${index / messages.length};` : null} >
         <div class="author" class:is-author={isAuthor}>{author}</div>
 
         <div class="text">{text}</div>
