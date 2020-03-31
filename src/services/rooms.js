@@ -42,6 +42,30 @@ export const parseLocationForID = (location) => {
   return null;
 };
 
-export const deleteRoom = async () => {};
+export const deleteRoom = async () => { };
 
-export const getAllRooms = async () => {};
+export const getAllRooms = async () => { };
+
+
+
+export const joinRoom = async (id, name) => {
+
+  if (typeof id === "string" && typeof name === "string") {
+    const ref = database.ref(`${refName}/${id}/users/${name}`);
+    const thenable = ref.set(true);
+    ref.onDisconnect().set(false);
+    return thenable;
+  }
+
+  return Promise.reject();
+};
+
+export const leaveRoom = async (id, name) => {
+  if (typeof id === "string" && typeof name === "string") {
+    const ref = database.ref(`${refName}/${id}/users/${name}`);
+    const thenable = ref.set(false);
+    ref.onDisconnect().cancel();
+    return thenable;
+  }
+  return Promise.reject();
+};
