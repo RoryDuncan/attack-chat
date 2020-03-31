@@ -12,7 +12,12 @@ export const refName = "messages";
 export const listenForNewMessages = (id, callback) => {
   console.log("Listening for messages on", id);
   const ref = database.ref(`${refName}/${id}`).limitToLast(previousMessagesLoaded);
-  const getSnapshot = (snapshot) => callback(snapshot.val());
+  const getSnapshot = (snapshot) => {
+    const id = snapshot.key;
+    const values = snapshot.val();
+    const message = { ...values, id, };
+    callback(message);
+  }
   const thenable = ref.on("child_added", getSnapshot);
   return () => ref.off("child_added", thenable);
 }

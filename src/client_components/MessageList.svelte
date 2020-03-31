@@ -38,18 +38,23 @@
       notify(message);
     }
 
-    scrollToBottom(false);
+    window.requestAnimationFrame(() => scrollToBottom(true, "smooth"));
   }
 
-  function scrollToBottom(force) {
+  function scrollToBottom(force, behavior = "auto") {
     if (list === null) return;
     const lastChild = list.querySelector("li:last-child");
-    if (force) lastChild.scrollIntoView();
-    else lastChild.scrollIntoViewIfNeeded();
+
+    const scrollOptions = {
+      behavior,
+      block: "end"
+    };
+    if (force) lastChild.scrollIntoView(scrollOptions);
+    else lastChild.scrollIntoViewIfNeeded(scrollOptions);
   }
 
   function childrenMounted() {
-    scrollToBottom(true);
+    scrollToBottom(true, "auto");
     beginNotifying();
   }
 </script>
@@ -61,8 +66,8 @@
     overflow-y: scroll;
     overscroll-behavior-y: contain;
     scroll-snap-type: y mandatory;
-    padding: 2rem 2rem;
-    margin: 0 0;
+    padding: 2rem 2rem 0rem 2rem;
+    margin: 0 0 2rem 0;
   }
 
   .message {
