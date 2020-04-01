@@ -52,8 +52,8 @@ export const joinRoom = async (id, name) => {
 
   if (typeof id === "string" && typeof name === "string") {
     const ref = database.ref(`${refName}/${id}/users/${name}`);
-    const thenable = ref.set(true);
-    ref.onDisconnect().set(false);
+    const thenable = ref.set({ name, isOnline: true });
+    ref.onDisconnect().set({ name, isOnline: false });
     return thenable;
   }
 
@@ -62,10 +62,32 @@ export const joinRoom = async (id, name) => {
 
 export const leaveRoom = async (id, name) => {
   if (typeof id === "string" && typeof name === "string") {
-    const ref = database.ref(`${refName}/${id}/users/${name}`);
+    const ref = database.ref(`${refName}/${id}/users/${name.replace(/\//gi, "-")}`);
     const thenable = ref.set(false);
     ref.onDisconnect().cancel();
     return thenable;
   }
   return Promise.reject();
 };
+
+export const listenForRoomChanges = async (id, callback, path = null) => {
+  const optionalPath = path === null ? "" : `/${path}`;
+  const ref = database.ref(`${refName}/${id}${optionalPath}`);
+  const getSnapshot = (snapshot) => callback(snapshot.val());
+
+  const thenable = ref.on("value", getSnapshot);
+  return () => ref.off("value", thenable);
+}
+
+export const listenForOnlineStatusChanges = async (id, callback) => {
+
+  const ref = database.ref(`${refName}/${id}/users`);
+  const getSnapshot = (snapshot) => {
+    const value = snapshot.val();
+    const userList = Object.keys(value).map(key => value[key]);
+    callback(userList);
+  }
+
+  const thenable = ref.on("value", getSnapshot);
+  return () => ref.off("value", thenable);
+}

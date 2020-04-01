@@ -3,11 +3,11 @@
   import { joinRoom } from "../services/rooms.js";
   import MessageList from "./MessageList.svelte";
   import MessageComposer from "./MessageComposer.svelte";
+  import UserList from "./UserList.svelte";
 
   export let id = null;
   export let room;
   let user = getContext("user")();
-
 
   joinRoom(id, user.name);
 
@@ -71,13 +71,16 @@
 </style>
 
 <div class="room">
-
   <div class="sidebar">
 
     <header>
       <h1 class="name" data-id={id}>{room.name || 'Unnamed Room'}</h1>
       <p class="description">{room.description}</p>
     </header>
+
+    <div class="users">
+      <UserList {id} />
+    </div>
     <aside>
       <p>Welcome, {user.name}.</p>
     </aside>

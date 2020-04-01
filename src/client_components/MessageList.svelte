@@ -86,7 +86,6 @@
   .author {
     font-weight: 600;
     margin-right: 0.5rem;
-    text-transform: lowercase;
   }
 
   .text {
