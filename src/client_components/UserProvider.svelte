@@ -8,7 +8,7 @@
   $: hasName = name !== null;
 
   let enteredName = "";
-  $: isValidName = enteredName.length > 3 && enteredName.length <= 60;
+  $: isValidName = enteredName.length > 1 && enteredName.length <= 60 && !enteredName.includes("/");
 
   setContext("user", () => ({ name }));
 
