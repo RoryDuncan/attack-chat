@@ -14,7 +14,7 @@ export const createRoom = async (fields) => {
       return { name, id, url };
     })
     .catch((err) => {
-      console.err(err)
+      console.error(err)
     })
 
 };

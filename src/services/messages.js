@@ -1,4 +1,4 @@
-import { database } from "./firebase.js";
+import { database, TIMESTAMP } from "./firebase.js";
 import { loadUser } from "./user.js";
 
 const previousMessagesLoaded = 50;
@@ -47,10 +47,11 @@ export const sendMessage = async (id, text) => {
   const message = {
     author: user.name || "unknown",
     text,
+    timestamp: TIMESTAMP,
   };
   ref.set(message)
   .then(() => Object.assign({ id: ref.key, }, message))
-  .catch((err) => console.err(err));
+  .catch((err) => console.error(err));
 
 };
 
