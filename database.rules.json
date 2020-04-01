@@ -1,6 +1,39 @@
 {
+  // https://firebase.google.com/docs/database/security/securing-data#anonymous_chat_example
   "rules": {
     ".read": true,
-    ".write": true
+    ".write": true,
+
+    "rooms": {
+      // todo
+      ".read": true,
+      ".write": true,
+    },
+
+    "messages": {
+      "$room": {
+        // room we want to write a message to must be valid
+        ".validate": "root.child('rooms/'+$room).exists()",
+        "$message": {
+          ".write": "!data.exists() && newData.exists()",
+          ".validate": "newData.hasChildren(['author', 'text', 'timestamp'])",
+
+          ".read": "root.hasChild('rooms/' + $room + '/users/' + data.child('author').val())",
+          "author": {
+            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length < 20 && !newData.val().contains('admin')"
+          },
+          "text": {
+            ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length < 50"
+          },
+          "timestamp": {
+            ".validate": "newData.val() <= now"
+          },
+          // no other fields can be included in a message
+          "$other": {
+            ".validate": false
+          }
+        }
+      }
+    }
   }
 }
