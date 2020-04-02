@@ -53,7 +53,6 @@
 </style>
 
 <ul class="users">
-
   {#each users as { name, id, isOnline } (name)}
     <li class="user" class:is-online={isOnline}>
       <div class="status"></div>
