@@ -5,7 +5,6 @@ yarn-error.log
 /cypress/screenshots/
 /__sapper__/
 
-src/config/firebase.config.js
 .firebaserc
 public/
 .firebase/
