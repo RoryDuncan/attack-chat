@@ -1,4 +1,6 @@
 <script>
+  import Dropdown from './Dropdown.svelte';
+
   export let segment;
 </script>
 
@@ -51,5 +53,16 @@
 <nav>
   <ul>
     <li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>home</a></li>
+    <li>
+      <svelte:component 
+        this={Dropdown}
+        urlBase={"/room/"}
+        dropDownTitle={"rooms"} 
+        dropDownOptions={["create", "subscribed"]}
+      >   
+      </svelte:component>
+    </li>
+    <li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>friends</a></li>
+    <li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>enemies</a></li>
   </ul>
 </nav>

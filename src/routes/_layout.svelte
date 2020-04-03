@@ -1,5 +1,5 @@
 <script>
-  import Nav from '../components/Nav.svelte';
+  import Nav from '../components/Navigation/Nav.svelte';
 
   export let segment;
 </script>
@@ -27,5 +27,7 @@
 <!-- <Nav {segment}/> -->
 
 <main>
+  <svelte:component this={Nav}></svelte:component>
   <slot></slot>
+  <!-- TODO: add footer -->
 </main>
