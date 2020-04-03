@@ -14,17 +14,23 @@
 </script>
 
 <style>
+
+  .room {
+    height: 100vh;
+    display: flex;
+    flex: 0 1 auto;
+    justify-content: space-between;
+    flex-flow: column nowrap;
+  }
+
   .chat {
     display: flex;
-    height: 100vh;
     flex-flow: column nowrap;
     overflow-y: scroll;
   }
 
   .sidebar {
-    padding: 2em 2em;
-    position: sticky;
-    top: 0;
+    padding: 1em 1em;
     background-color: var(--sidebar-background-color);
     color: var(--sidebar-text-color);
     border-bottom: 2px solid var(--sidebar-text-color);
@@ -48,9 +54,10 @@
     opacity: 0.5;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
 
     .sidebar {
+      padding: 2em 2em;
       width: 25vw;
       border-bottom: none;
     }
@@ -60,9 +67,6 @@
     }
 
     .room {
-      display: flex;
-      flex: 0 1 auto;
-      justify-content: space-between;
       flex-flow: row nowrap;
     }
 
@@ -81,9 +85,6 @@
     <div class="users">
       <UserList {id} />
     </div>
-    <aside>
-      <p>Welcome, {user.name}.</p>
-    </aside>
   </div>
 
   <div class="chat">
