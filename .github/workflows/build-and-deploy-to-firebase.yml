@@ -16,10 +16,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: build
-        uses: ./.github/workflows/build.yaml
-
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: '10.x'
+      - name: Install dependencies
+        run: npm ci
+      - name: Sapper Export
+        run: npm run export
       # upload for deployment
       - name: Prepare Deployment
         uses: actions/upload-artifact@v1
