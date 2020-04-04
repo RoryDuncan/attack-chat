@@ -12,7 +12,7 @@
     );
 
     return () => {
-      unlistenForOnlineStatusChanges();
+      unlisten();
     };
   });
 </script>
@@ -21,12 +21,25 @@
   .users {
     list-style: none;
     padding: 0 0;
-    margin: 0 0;
+    margin: 1em 0;
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  @media (min-width: 768px) {
+    .users {
+      display: block;
+    }
+
+    .user {
+      margin-right: auto;
+    }
   }
 
   .user {
     display: flex;
     align-items: center;
+    margin-right: 1em;
   }
 
   .status {
