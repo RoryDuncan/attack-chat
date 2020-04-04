@@ -26,6 +26,6 @@ jobs:
 
       # upload for deployment
       - uses: actions/upload-artifact@v1
-          with:
-            name: public
-            path: public
+        with:
+          name: public
+          path: public
