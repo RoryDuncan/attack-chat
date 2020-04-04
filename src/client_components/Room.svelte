@@ -1,6 +1,7 @@
 <script>
   import { getContext } from "svelte";
   import { joinRoom } from "../services/rooms.js";
+  import MessageProvider from "./MessagesProvider.svelte";
   import MessageList from "./MessageList.svelte";
   import MessageComposer from "./MessageComposer.svelte";
   import UserList from "./UserList.svelte";
@@ -88,7 +89,10 @@
   </div>
 
   <div class="chat">
-    <MessageList />
+    <MessageProvider {id}>
+      <MessageList />
+    </MessageProvider>
+
     <MessageComposer {id} />
 
   </div>

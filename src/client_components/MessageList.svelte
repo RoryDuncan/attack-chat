@@ -1,55 +1,28 @@
 <script>
   import { getContext, onMount } from "svelte";
   import { fade } from "svelte/transition";
-  import { listenForNewMessages, listenForDeletedMessages } from "../services/messages.js";
-  import { start as beginNotifying, notify } from "../services/notifications.js";
+
   import Loading from "../components/Loading.svelte";
   import Message from "./Message.svelte";
 
   const getRoom = getContext("room");
   const getUser = getContext("user");
+  const getMessages = getContext("messages");
 
   const { id } = getRoom();
   const user = getUser();
+  const messages = getMessages();
 
-  let isLoading = true;
   let list = null;
-  let messages = [];
 
   onMount(async () => {
-    const unlistenForNewMessages = listenForNewMessages(id, appendMessage);
-    const unlistenForDeletedMessages = listenForDeletedMessages(id, removeMessage);
-
-    isLoading = false;
-
-    return () => {
-      unlistenForDeletedMessages();
-      unlistenForNewMessages();
-    };
+    scrollToBottom(true, "smooth");
   });
 
-  function isAuthor(message) {
-    return message.author.toLowerCase() === user.name.toLowerCase();
-  }
 
-  function removeMessage(message) {
-    messages = messages.filter(m => m.id !== message.id);
-    window.requestAnimationFrame(() => scrollToBottom(true, "smooth"));
-  }
 
-  function appendMessage(message) {
-    const nextList = [...messages, message].map(message => {
-      return { ...message, isAuthor: isAuthor(message)};
-    });
-
-    messages = nextList.slice(Math.max(0, nextList.length - 100)); // limit to 100
-
-    if (!isAuthor(message)) {
-      notify(message);
-    }
-
-    window.requestAnimationFrame(() => scrollToBottom(true, "smooth"));
-  }
+  // on changes this needs to run:
+  // window.requestAnimationFrame(() => scrollToBottom(true, "smooth"));
 
   function scrollToBottom(force, behavior = "auto") {
     if (list === null) return;
@@ -65,7 +38,6 @@
 
   function childrenMounted() {
     scrollToBottom(true, "auto");
-    beginNotifying();
   }
 </script>
 
@@ -83,9 +55,9 @@
 
 </style>
 
-<Loading {isLoading} message="Loading messages..." on:load={childrenMounted}>
+
   <ul class="messages" bind:this={list}>
-    {#each messages as message}
+    {#each $messages as message}
       <li class="message" out:fade={{duration: 1000}}>
         <Message {...message} />
       </li>
@@ -95,5 +67,3 @@
       </li>
     {/each}
   </ul>
-
-</Loading>
