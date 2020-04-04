@@ -1,4 +1,5 @@
 import { database } from "./firebase.js";
+import { loadUser } from "./user.js";
 
 
 export const refName = "scripts";
@@ -19,4 +20,21 @@ export const listenForNewScripts = (roomID, callback) => {
   }
   const thenable = ref.on("child_added", getSnapshot);
   return () => ref.off("child_added", thenable);
+};
+
+
+export const addScript = (roomID, text, html) => {
+  const ref = database.ref(`${refName}/${roomID}`).push();
+  const { name: author } = loadUser();
+  const script = {
+    text,
+    html,
+    author,
+  };
+
+  return ref.set(script)
 }
+
+export const removeScript = (roomID, scriptID) => {
+  return database.ref(`${refName}/${roomID}.${scriptID}`).remove();
+};

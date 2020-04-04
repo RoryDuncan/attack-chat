@@ -3,6 +3,7 @@
   import { onMount, setContext, getContext, } from "svelte";
   import { writable } from "svelte/store";
   import { listenForNewMessages, listenForDeletedMessages } from "../services/messages.js";
+  import { listenForNewScripts, } from "../services/scripts.js";
   import Loading from "../components/Loading.svelte";
 
   export let id;
@@ -16,12 +17,14 @@
   onMount(async () => {
     const unlistenForNewMessages = listenForNewMessages(id, appendMessage);
     const unlistenForDeletedMessages = listenForDeletedMessages(id, removeMessage);
+    const unlistenForNewScripts = listenForNewScripts(id, appendScript)
 
     isLoading = false;
 
     return () => {
       unlistenForDeletedMessages();
       unlistenForNewMessages();
+      unlistenForNewScripts();
     };
   });
 
@@ -41,6 +44,10 @@
 
       return nextList.slice(Math.max(0, nextList.length - 100));
     });
+  }
+
+  function appendScript(message) {
+    return appendMessage({ ...messages, isScript: true, });
   }
 
   function isAuthor(message) {
