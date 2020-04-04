@@ -4,6 +4,7 @@
   import { listenForNewMessages, listenForDeletedMessages } from "../services/messages.js";
   import { start as beginNotifying, notify } from "../services/notifications.js";
   import Loading from "../components/Loading.svelte";
+  import Message from "./Message.svelte";
 
   const getRoom = getContext("room");
   const getUser = getContext("user");
@@ -79,30 +80,14 @@
     margin: 0 0 2rem 0;
   }
 
-  .message {
-    padding: 0.25em 1em;
-  }
-
-  .author {
-    font-weight: 600;
-    margin-right: 0.5rem;
-  }
-
-  .text {
-    white-space: pre-line;
-    word-break: break-all;
-  }
-
 
 </style>
 
 <Loading {isLoading} message="Loading messages..." on:load={childrenMounted}>
   <ul class="messages" bind:this={list}>
-    {#each messages as { id, author, isAuthor, text}, index (id)}
-      <li class="message" data-id={id} style={messages.length > 99 ? `opacity: ${index / messages.length};` : null} out:fade={{duration: 1000}}>
-        <div class="author" class:is-author={isAuthor}>{author}</div>
-
-        <div class="text">{text}</div>
+    {#each messages as message}
+      <li class="message" out:fade={{duration: 1000}}>
+        <Message {...message} />
       </li>
     {:else}
       <li class="empty">

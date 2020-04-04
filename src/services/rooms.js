@@ -1,4 +1,4 @@
-import { database } from "./firebase.js";
+import { database, TIMESTAMP } from "./firebase.js";
 
 export const refName = "rooms";
 
@@ -7,7 +7,7 @@ export const createRoom = async (fields) => {
   const roomRef = database.ref(refName).push();
   const { name } = fields;
 
-  return roomRef.set(fields)
+  return roomRef.set({ ...fields, timestamp: TIMESTAMP})
     .then(() => {
       const id = roomRef.key;
       const url = getRoomURL(id);
