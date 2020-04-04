@@ -27,7 +27,7 @@
 <!-- <Nav {segment}/> -->
 
 <main>
-  <svelte:component this={Nav}></svelte:component>
+  <Nav {segment} />
   <slot></slot>
   <!-- TODO: add footer -->
 </main>

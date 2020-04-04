@@ -1,75 +1,21 @@
 <script>
-    export function toggleDropDownOptions() {
-        showDropdownOptions = showDropdownOptions === false ? true : false;
-    }
-
-    let showDropdownOptions = false;
-    export let dropDownTitle;
-    export let urlBase;
-    export let dropDownOptions = [];
-</script>
-
-<!-- TODO: ask rory how to unify/share css between Nav components-->
-<style>
-  nav {
-    border-bottom: 1px solid rgba(255,62,0,0.1);
-    font-weight: 300;
-    padding: 0 1em;
+  export function toggleDropDownOptions() {
+    showDropdownOptions = showDropdownOptions === false ? true : false;
   }
 
+  let showDropdownOptions = false;
+  export let dropDownTitle;
+</script>
+
+<style>
   ul {
     margin: 0;
     padding: 0;
   }
-
-  /* clearfix */
-  ul::after {
-    content: '';
-    display: block;
-    clear: both;
-  }
-
-  li {
-    display: block;
-    float: left;
-  }
-
-  [aria-current] {
-    position: relative;
-    display: inline-block;
-  }
-
-  [aria-current]::after {
-    position: absolute;
-    content: '';
-    width: calc(100% - 1em);
-    height: 2px;
-    background-color: rgb(255,62,0);
-    display: block;
-    bottom: -1px;
-  }
-
-  a {
-    text-decoration: none;
-    padding: 1em 0.5em;
-    display: block;
-  }
-
-  /* TODO: move to general */
-  .vertical-dropdown-item {
-    float: left;
-    clear: left;
-  }
-
 </style>
 
-<ul>
-    <li class="vertical-dropdown-item"><a href='.' on:click={toggleDropDownOptions}>{dropDownTitle}</a></li>
-    {#if showDropdownOptions}
-        {#each dropDownOptions as dropDownOption}
-            <li class="vertical-dropdown-item">
-                <a href={urlBase + dropDownOption}>{dropDownOption}</a>
-            </li>
-        {/each}
-    {/if}
-</ul>
+<!-- TODO: ask rory how to unify/share css between Nav components-->
+<p on:click={toggleDropDownOptions}>{dropDownTitle}</p>
+{#if showDropdownOptions}
+  <slot />
+{/if}
