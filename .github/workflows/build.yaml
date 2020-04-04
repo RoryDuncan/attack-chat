@@ -1,24 +1,15 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: CI/CD
+name: Build
 
 on:
-  push:
+  pull_request:
     branches: [ master ]
 
 jobs:
-
   build:
 
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: build
-        uses: ./.github/actions/build.yaml
-
-  deploy:
-    needs: build
     runs-on: ubuntu-latest
 
     steps:
@@ -28,15 +19,13 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '10.x'
+      - name: Install dependencies
+        run: npm ci
+      - name: Sapper Export
+        run: npm run export
 
-      - uses: actions/download-artifact@v1
-        with:
-          name: public
-
-      - name: Deploy to Firebase
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only hosting --project attack-chat
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          CI: true
+      # upload for deployment
+      - uses: actions/upload-artifact@v1
+          with:
+            name: public
+            path: public
