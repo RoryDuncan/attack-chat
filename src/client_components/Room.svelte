@@ -28,6 +28,8 @@
     display: flex;
     flex-flow: column nowrap;
     overflow-y: scroll;
+    height: 100%;
+    justify-content: space-between;
   }
 
   .sidebar {
