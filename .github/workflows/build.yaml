@@ -23,9 +23,3 @@ jobs:
         run: npm ci
       - name: Sapper Export
         run: npm run export
-
-      # upload for deployment
-      - uses: actions/upload-artifact@v1
-        with:
-          name: public
-          path: public

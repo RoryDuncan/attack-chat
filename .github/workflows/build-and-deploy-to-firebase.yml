@@ -16,8 +16,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: build
-        uses: ./.github/actions/build.yaml
+        uses: ./.github/workflows/build.yaml
+
+      # upload for deployment
+      - name: Prepare Deployment
+        uses: actions/upload-artifact@v1
+        with:
+          name: public
+          path: public
 
   deploy:
     needs: build
