@@ -14,7 +14,6 @@ export const start = () => {
   if (Notification.permission === "default") {
     Notification.requestPermission()
       .then( permission => {
-          console.log(permission, Notification.permission);
           isGranted = permission === "granted";
       });
   }
