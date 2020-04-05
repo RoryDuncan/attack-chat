@@ -1,4 +1,4 @@
-import { database } from "./firebase.js";
+import { database, TIMESTAMP } from "./firebase.js";
 import { loadUser } from "./user.js";
 
 
@@ -15,7 +15,7 @@ export const listenForNewScripts = (roomID, callback) => {
   const getSnapshot = (snapshot) => {
     const id = snapshot.key;
     const values = snapshot.val();
-    const message = { ...values, id, };
+    const message = { ...values, id, isScript: true, };
     callback(message);
   }
   const thenable = ref.on("child_added", getSnapshot);
@@ -30,6 +30,7 @@ export const addScript = (roomID, text, html) => {
     text,
     html,
     author,
+    timestamp: TIMESTAMP
   };
 
   return ref.set(script)

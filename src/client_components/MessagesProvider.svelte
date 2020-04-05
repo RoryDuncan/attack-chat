@@ -17,7 +17,7 @@
   onMount(async () => {
     const unlistenForNewMessages = listenForNewMessages(id, appendMessage);
     const unlistenForDeletedMessages = listenForDeletedMessages(id, removeMessage);
-    const unlistenForNewScripts = listenForNewScripts(id, appendScript)
+    const unlistenForNewScripts = listenForNewScripts(id, appendMessage)
 
     isLoading = false;
 
@@ -44,10 +44,6 @@
 
       return nextList.slice(Math.max(0, nextList.length - 100));
     });
-  }
-
-  function appendScript(message) {
-    return appendMessage({ ...messages, isScript: true, });
   }
 
   function isAuthor(message) {

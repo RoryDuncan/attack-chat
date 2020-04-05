@@ -4,6 +4,8 @@
   export let isAuthor;
   export let text;
   export let timestamp;
+  export let hasAttachment = false;
+
 </script>
 
 <style>
@@ -22,7 +24,11 @@
   }
 </style>
 
-<div class="message">
+<div id={id} class="message" data-timestamp={timestamp}>
   <div class="author" class:is-author={isAuthor}>{author}</div>
   <div class="text">{text}</div>
+
+  {#if hasAttachment}
+    <slot />
+  {/if}
 </div>

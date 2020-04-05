@@ -4,6 +4,7 @@
 
   import Loading from "../components/Loading.svelte";
   import Message from "./Message.svelte";
+  import MessageScript from "./MessageScript.svelte";
 
   const getRoom = getContext("room");
   const getUser = getContext("user");
@@ -17,6 +18,11 @@
 
   onMount(async () => {
     scrollToBottom(true, "smooth");
+    const unsub = messages.subscribe(() => {
+      window.requestAnimationFrame(() => scrollToBottom(true, "smooth"));
+    });
+
+    return () => unsub();
   });
 
 
@@ -51,25 +57,26 @@
     padding: 2rem 2rem 0rem 2rem;
     margin: 0 0 2rem 0;
   }
-
-
 </style>
 
-
-  <ul class="messages" bind:this={list}>
-    {#each $messages as message}
-      <li class="message" out:fade={{duration: 1000}}>
+<ul class="messages" bind:this={list}>
+  {#each $messages as message }
+    <li class="message" out:fade={{duration: 1000}}>
+      <Message
+        id={message.id}
+        author={message.author}
+        text={message.text}
+        isAuthor={message.isAuthor}
+        timestamp={message.timestamp}
+        hasAttachment={message.isScript}>
         {#if message.isScript}
-          <p>{message.author} added a script.</p>
-          <pre><code>{message.html}</code></pre>
-        {:else}
-          <Message {...message} />
+          <MessageScript id={message.id} html={message.html} author={message.author} />
         {/if}
-
-      </li>
-    {:else}
-      <li class="empty">
-        <p>No Messages Yet. Say Something!</p>
-      </li>
-    {/each}
-  </ul>
+      </Message>
+    </li>
+  {:else}
+    <li class="empty">
+      <p>No Messages Yet. Say Something!</p>
+    </li>
+  {/each}
+</ul>

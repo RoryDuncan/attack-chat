@@ -10,9 +10,9 @@
   export let id = null;
   export let room;
   let user = getContext("user")();
-  let isScripting = true;
+  let isScripting = false;
 
-  $: buttonText = isScripting ? "Cancel" : "Add Script";
+  $: buttonText = isScripting ? "Normal Chat" : "Add Script";
   joinRoom(id, user.name);
 
   function toggleComposer() {
