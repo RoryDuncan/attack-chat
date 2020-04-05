@@ -84,6 +84,12 @@
     opacity: 0.5;
   }
 
+  .scripts button {
+    margin-bottom: 0.5em;
+    display: block;
+    width: 100%;
+  }
+
   @media (min-width: 768px) {
 
     .sidebar {
