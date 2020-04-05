@@ -48,10 +48,10 @@
   }
 
   button {
-    background-color: #fff;
+    background-color: #08b;
     border: 1px solid #08b;
     padding: 0.5em 1em;
-    color: #08b;
+    color: #fff;
     margin-left: 0.5em;
     border-radius: 3px;
     font-weight: 600;
@@ -85,7 +85,7 @@
   button.invalid {
     filter: grayscale(0);
     opacity: 1;
-    color: #b44;
+    background-color: #b44;
     border: 1px solid #b44;
   }
 </style>
@@ -101,5 +101,4 @@
       bind:value={inputText} />
     <button class="send" type="submit" class:invalid={isTooLong} disabled={isDisabled}>{isTooLong ? "Too Long" : "Send"}</button>
   </div>
-
 </form>

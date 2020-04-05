@@ -44,7 +44,7 @@
 <style>
   .messages {
     list-style: none;
-    min-height: 50vh;
+    min-height: 25vh;
     overflow-y: scroll;
     overscroll-behavior-y: contain;
     scroll-snap-type: y mandatory;
@@ -59,7 +59,13 @@
   <ul class="messages" bind:this={list}>
     {#each $messages as message}
       <li class="message" out:fade={{duration: 1000}}>
-        <Message {...message} />
+        {#if message.isScript}
+          <p>{message.author} added a script.</p>
+          <pre><code>{message.html}</code></pre>
+        {:else}
+          <Message {...message} />
+        {/if}
+
       </li>
     {:else}
       <li class="empty">

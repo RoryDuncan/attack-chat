@@ -4,13 +4,20 @@
   import MessageProvider from "./MessagesProvider.svelte";
   import MessageList from "./MessageList.svelte";
   import MessageComposer from "./MessageComposer.svelte";
+  import ScriptComposer from "./ScriptComposer.svelte";
   import UserList from "./UserList.svelte";
 
   export let id = null;
   export let room;
   let user = getContext("user")();
+  let isScripting = true;
 
+  $: buttonText = isScripting ? "Cancel" : "Add Script";
   joinRoom(id, user.name);
+
+  function toggleComposer() {
+    isScripting = !isScripting;
+  }
 
 </script>
 
@@ -27,7 +34,7 @@
   .chat {
     display: flex;
     flex-flow: column nowrap;
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 100%;
     justify-content: space-between;
   }
@@ -66,6 +73,7 @@
     }
     .chat {
       width: 75vw;
+      max-height: 100vh;
       justify-content: space-between;
     }
 
@@ -88,6 +96,10 @@
     <div class="users">
       <UserList {id} />
     </div>
+
+    <div class="scripts">
+      <button on:click={toggleComposer}>{buttonText}</button>
+    </div>
   </div>
 
   <div class="chat">
@@ -95,7 +107,10 @@
       <MessageList />
     </MessageProvider>
 
-    <MessageComposer {id} />
-
+    {#if isScripting}
+      <ScriptComposer {id} />
+    {:else}
+      <MessageComposer {id} />
+    {/if}
   </div>
 </div>
