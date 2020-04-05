@@ -3,6 +3,7 @@
   import Loading from "../components/Loading.svelte";
   import Room from "./Room.svelte";
   import UserProvider from "./UserProvider.svelte";
+  import WarningGate from "./WarningGate.svelte";
   import { parseLocationForID, getRoomByID } from "../services/rooms.js";
 
   export const id = parseLocationForID(window.location);
@@ -26,9 +27,11 @@
 <Loading {isLoading} message="Loading room...">
   {#if hasValidID}
     {#if room !== null}
-      <UserProvider>
-        <Room {id} {room} />
-      </UserProvider>
+      <WarningGate>
+        <UserProvider>
+          <Room {id} {room} />
+        </UserProvider>
+      </WarningGate>
     {:else}
       <h2>404</h2>
       <p>This room doesn't exist.</p>
