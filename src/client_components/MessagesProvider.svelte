@@ -41,8 +41,12 @@
 
     messages.update(values => {
       const nextList = [...values, newMessage];
-
-      return nextList.slice(Math.max(0, nextList.length - 100));
+      nextList.sort( (a, b) => {
+        if (a.timestamp < b.timestamp) return -1;
+        if (a.timestamp > b.timestamp) return 1;
+        return 0;
+      })
+      return nextList;
     });
   }
 
