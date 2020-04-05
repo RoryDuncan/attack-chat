@@ -9,29 +9,26 @@
 <style>
 
 .annotation {
-  font-size: 0.8em;
+  font-size: 0.6em;
   text-transform: uppercase;
   color: #888;
-  font-weight: 600;
   margin: 0 0;
 }
 
 pre {
-  margin: 0 0 0.5em 0;
+  margin: 0em 0 0.25em 0em;
 }
 
 pre > code {
   display: block;
   padding: 1em 1em;
-  background-color: #111;
+  background-color: #eee;
   color: #08a;
 }
 
 </style>
 
 <div class="message-script">
-  <p class="annotation">{isAuthor ? "You" : author} added a script:</p>
-
   <pre>
     <code>{html}</code>
   </pre>

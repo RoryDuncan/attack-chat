@@ -5,12 +5,12 @@
   export let text;
   export let timestamp;
   export let hasAttachment = false;
-
+  export let isGroup = false;
 </script>
 
 <style>
   .message {
-    padding: 0.25em 1em;
+    padding: 0.5em 1em;
   }
 
   .author {
@@ -22,10 +22,18 @@
     white-space: pre-line;
     word-break: break-all;
   }
+
+  .is-group {
+    padding-top: 0;
+    margin-top: -0.25em;
+  }
 </style>
 
-<div id={id} class="message" data-timestamp={timestamp}>
-  <div class="author" class:is-author={isAuthor}>{author}</div>
+<div id={id} class="message" class:is-group={isGroup} data-timestamp={timestamp}>
+
+  {#if hasAttachment || !isGroup}
+    <div class="author" class:is-author={isAuthor}>{author}</div>
+  {/if}
   <div class="text">{text}</div>
 
   {#if hasAttachment}

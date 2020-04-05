@@ -13,6 +13,7 @@
   const { id } = getRoom();
   const user = getUser();
   const messages = getMessages();
+  $: groupedMessages = groupMessages($messages);
 
   let list = null;
 
@@ -45,6 +46,21 @@
   function childrenMounted() {
     scrollToBottom(true, "auto");
   }
+
+  function groupMessages(items) {
+
+    let previousAuthor = null;
+    return items.map( message => {
+
+      const author = message.author.toLowerCase()
+      const isGroup = previousAuthor !== null && author === previousAuthor;
+
+      previousAuthor = author;
+
+      return {...message, isGroup};
+    });
+  }
+
 </script>
 
 <style>
@@ -60,9 +76,10 @@
 </style>
 
 <ul class="messages" bind:this={list}>
-  {#each $messages as message }
+  {#each groupedMessages as message (message.id) }
     <li class="message" out:fade={{duration: 1000}}>
       <Message
+        isGroup={message.isGroup}
         id={message.id}
         author={message.author}
         text={message.text}
@@ -74,6 +91,7 @@
         {/if}
       </Message>
     </li>
+
   {:else}
     <li class="empty">
       <p>No Messages Yet. Say Something!</p>
