@@ -42,6 +42,10 @@
   .hide-time .timestamp {
     visibility: hidden;
   }
+
+  .message-content {
+    width: 100%;
+  }
 </style>
 
 <div

@@ -1,5 +1,6 @@
 <script>
-  import { getContext } from "svelte";
+  import { getContext, setContext, onMount } from "svelte";
+  import { writable } from "svelte/store";
   import { joinRoom } from "../services/rooms.js";
   import MessageProvider from "./MessagesProvider.svelte";
   import MessageList from "./MessageList.svelte";
@@ -9,14 +10,33 @@
 
   export let id = null;
   export let room;
+
   let user = getContext("user")();
   let isScripting = false;
+  let autoEval = writable(false);
+  let autoEvalTimeStart = Infinity;
+  setContext("autoEval", autoEval);
+  setContext("autoEvalTimeStart", () => autoEvalTimeStart);
 
   $: buttonText = isScripting ? "Normal Chat" : "Add Script";
   joinRoom(id, user.name);
 
+  onMount(() => {
+    const unsub = autoEval.subscribe( value => {
+      autoEvalTimeStart = value ? Date.now() : Infinity;
+    });
+
+    return () => unsub();
+  })
+
   function toggleComposer() {
     isScripting = !isScripting;
+  }
+
+  function toggleAutoEval() {
+    autoEval.update( value => {
+      return !value;
+    });
   }
 
 </script>
@@ -98,7 +118,8 @@
     </div>
 
     <div class="scripts">
-      <button on:click={toggleComposer}>{buttonText}</button>
+      <button class="secondary" on:click={toggleComposer}>{buttonText}</button>
+      <button class="secondary" on:click={toggleAutoEval}>Auto-Eval: { $autoEval ? "Enabled" : "Disabled"}</button>
     </div>
   </div>
 

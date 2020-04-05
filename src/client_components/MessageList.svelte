@@ -26,8 +26,6 @@
     return () => unsub();
   });
 
-
-
   // on changes this needs to run:
   // window.requestAnimationFrame(() => scrollToBottom(true, "smooth"));
 
@@ -48,19 +46,16 @@
   }
 
   function groupMessages(items) {
-
     let previousAuthor = null;
-    return items.map( message => {
-
-      const author = message.author.toLowerCase()
+    return items.map(message => {
+      const author = message.author.toLowerCase();
       const isGroup = previousAuthor !== null && author === previousAuthor;
 
       previousAuthor = author;
 
-      return {...message, isGroup};
+      return { ...message, isGroup };
     });
   }
-
 </script>
 
 <style>
@@ -76,8 +71,8 @@
 </style>
 
 <ul class="messages" bind:this={list}>
-  {#each groupedMessages as message (message.id) }
-    <li class="message" out:fade={{duration: 1000}}>
+  {#each groupedMessages as message (message.id)}
+    <li class="message" out:fade={{ duration: 1000 }}>
       <Message
         isGroup={message.isGroup}
         id={message.id}
@@ -87,11 +82,14 @@
         timestamp={message.timestamp}
         hasAttachment={message.isScript}>
         {#if message.isScript}
-          <MessageScript id={message.id} html={message.html} author={message.author} />
+          <MessageScript
+            id={message.id}
+            html={message.html}
+            author={message.author}
+            timestamp={message.timestamp} />
         {/if}
       </Message>
     </li>
-
   {:else}
     <li class="empty">
       <p>No Messages Yet. Say Something!</p>
