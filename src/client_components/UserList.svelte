@@ -6,10 +6,7 @@
   let users = [];
 
   onMount(() => {
-    const unlisten = listenForOnlineStatusChanges(
-      id,
-      _users => (users = _users)
-    );
+    const unlisten = listenForOnlineStatusChanges(id, _users => (users = _users));
 
     return () => {
       unlisten();

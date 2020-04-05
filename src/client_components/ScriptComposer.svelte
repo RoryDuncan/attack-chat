@@ -15,10 +15,6 @@
   $: isTooLong = text.length > maxLength || html.length > maxScriptLength;
   $: isDisabled = html.length === 0 || isTooLong;
 
-  onMount(() => {
-
-  });
-
   // when the user presses enter, send the messsage
   // except when shift is held
   function enterHandler(e) {
@@ -71,30 +67,6 @@
     justify-content: space-between;
   }
 
-  button {
-    display: block;
-    cursor: pointer;
-    background-color: #08b;
-    border: 1px solid #08b;
-    padding: 0.5em 1em;
-    color: #fff;
-    margin-left: 0.5em;
-    border-radius: 3px;
-    font-weight: 600;
-    margin: 0em 0em 0.5em 0.5em;
-  }
-
-  button[disabled] {
-    filter: grayscale(1);
-    opacity: 0.5;
-  }
-
-  .secondary {
-    background-color: #840;
-    border: 1px solid transparent;
-    color: #fff;
-  }
-
   .send {
     margin-top: 1em;
   }
@@ -118,12 +90,6 @@
     background-color: #f2f2f2;
   }
 
-  .message:focus {
-    border: 1px solid #08a;
-    background-color: #f8f8f8;
-    outline: transparent;
-  }
-
   .script {
     padding: 1rem 1rem;
     resize: vertical;
@@ -137,12 +103,6 @@
     border: 1px solid #08a;
   }
 
-  button.invalid {
-    filter: grayscale(0);
-    opacity: 1;
-    color: #b44;
-    border: 1px solid #b44;
-  }
 </style>
 
 <form

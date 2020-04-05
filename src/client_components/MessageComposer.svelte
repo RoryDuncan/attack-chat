@@ -46,22 +46,6 @@
     background-color: #fff;
     margin: 0 0;
   }
-
-  button {
-    background-color: #08b;
-    border: 1px solid #08b;
-    padding: 0.5em 1em;
-    color: #fff;
-    margin-left: 0.5em;
-    border-radius: 3px;
-    font-weight: 600;
-  }
-
-  button[disabled] {
-    filter: grayscale(1);
-    opacity: 0.5;
-  }
-
   .composer {
     display: flex;
     flex: 1 0 auto;
@@ -80,13 +64,6 @@
   .message:focus {
     border: 1px solid transparent;
     outline: transparent;
-  }
-
-  button.invalid {
-    filter: grayscale(0);
-    opacity: 1;
-    background-color: #b44;
-    border: 1px solid #b44;
   }
 </style>
 

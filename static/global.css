@@ -39,6 +39,52 @@ code {
 	}
 }
 
+label {
+	padding: 0.5em;
+}
+
+
+label + input {
+	margin-left: 0.5em;
+}
+
+input,
+textarea {
+	border: 1px solid #eee;
+	background-color: #f2f2f2;
+	border-radius: 3px;
+	padding: 0.5em 0.5em;
+}
+
+textarea:focus,
+input:focus {
+	border: 1px solid #08a;
+	background-color: #f8f8f8;
+	outline: transparent;
+}
+
+
+button {
+	background-color: #08b;
+	border: 1px solid #08b;
+	padding: 0.5em 1em;
+	color: #fff;
+	margin-left: 0.5em;
+	border-radius: 3px;
+	font-weight: 600;
+}
+
+button[disabled] {
+	filter: grayscale(1);
+	opacity: 0.5;
+}
+
+button.invalid {
+	filter: grayscale(0);
+	opacity: 1;
+	background-color: #b44;
+	border: 1px solid #b44;
+}
 
 .secondary {
   display: inline-block;
