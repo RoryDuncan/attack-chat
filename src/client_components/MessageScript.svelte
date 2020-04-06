@@ -35,11 +35,7 @@
     right: 0.5em;
   }
 
-  pre {
-    margin: 0em 0 0.25em 0em;
-  }
-
-  pre > code {
+  code {
     display: block;
     padding: 1em 1em;
     background-color: #eee;
@@ -51,7 +47,5 @@
   <header>
     <button class="secondary" type="button" on:click={evaluate}>Eval</button>
   </header>
-  <pre>
-    <code>{html}</code>
-  </pre>
+  <code>{html}</code>
 </div>
